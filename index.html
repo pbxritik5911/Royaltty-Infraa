@@ -338,6 +338,71 @@
     .proj-grid,.why-grid,.services-grid,.testi-grid,.foot-grid{grid-template-columns:1fr;}
     .search-field{border-right:none;border-bottom:1px solid var(--hairline);}
   }
+
+  /* SEARCH FEEDBACK */
+  .search-note{max-width:1280px;margin:18px auto 0;padding:0 48px;font-family:'Poppins',sans-serif;font-size:.78rem;letter-spacing:.04em;color:var(--gold-soft);}
+  .no-results{text-align:center;color:var(--stone);padding:70px 24px;font-size:.92rem;}
+  .proj-card{cursor:pointer;}
+
+  /* MODAL SHELL */
+  .modal-overlay{
+    position:fixed;inset:0;z-index:200;background:rgba(6,6,6,0.86);backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;padding:24px;
+    opacity:0;pointer-events:none;transition:opacity .35s ease;
+  }
+  .modal-overlay.open{opacity:1;pointer-events:auto;}
+  .modal-box{
+    background:var(--panel);border:1px solid var(--hairline);max-width:880px;width:100%;
+    max-height:88vh;overflow-y:auto;position:relative;transform:translateY(24px);transition:transform .4s cubic-bezier(.16,1,.3,1);
+  }
+  .modal-overlay.open .modal-box{transform:translateY(0);}
+  .modal-close{
+    position:absolute;top:18px;right:18px;width:36px;height:36px;border:1px solid var(--hairline);
+    background:rgba(10,10,10,0.6);color:var(--ivory);display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:1.2rem;z-index:5;
+  }
+  .modal-close:hover{border-color:var(--gold);color:var(--gold);}
+
+  /* PROJECT MODAL CONTENT */
+  .pm-hero{height:320px;background-size:cover;background-position:center;position:relative;}
+  .pm-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,var(--panel) 100%);}
+  .pm-thumbs{display:flex;gap:8px;padding:14px 40px 0;}
+  .pm-thumb{width:64px;height:48px;background-size:cover;background-position:center;cursor:pointer;border:1px solid var(--hairline);opacity:.55;transition:opacity .3s;}
+  .pm-thumb:hover,.pm-thumb.active{opacity:1;border-color:var(--gold);}
+  .pm-body{padding:20px 40px 40px;}
+  .pm-body .proj-tag{margin-bottom:14px;}
+  .pm-body h2{font-size:1.9rem;color:var(--ivory);margin-bottom:6px;}
+  .pm-loc{color:var(--stone);font-family:'Poppins',sans-serif;font-size:.78rem;letter-spacing:.05em;margin-bottom:18px;}
+  .pm-price{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold);margin-bottom:24px;}
+  .pm-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:20px 0;margin-bottom:26px;}
+  .pm-fact span{display:block;font-family:'Poppins',sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);margin-bottom:6px;}
+  .pm-fact b{font-size:.92rem;color:var(--ivory);font-weight:500;}
+  .pm-desc{color:var(--stone);line-height:1.8;font-size:.92rem;margin-bottom:26px;}
+  .pm-chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px;}
+  .pm-chip{border:1px solid var(--hairline);padding:8px 16px;font-size:.78rem;color:var(--ivory);}
+  .pm-actions{display:flex;flex-wrap:wrap;gap:14px;}
+
+  /* INQUIRY MODAL / FORM */
+  .iq-body{padding:44px 40px;}
+  .iq-body h2{font-size:1.6rem;color:var(--ivory);margin-bottom:8px;}
+  .iq-sub{color:var(--stone);font-size:.86rem;margin-bottom:30px;}
+  .field-row{margin-bottom:20px;}
+  .field-row label{display:block;font-family:'Poppins',sans-serif;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:8px;}
+  .field-row input,.field-row textarea,.field-row select{
+    width:100%;background:transparent;border:1px solid var(--hairline);color:var(--ivory);
+    font-family:'Inter',sans-serif;font-size:.92rem;padding:14px 16px;outline:none;transition:border-color .3s;
+  }
+  .field-row input:focus,.field-row textarea:focus,.field-row select:focus{border-color:var(--gold);}
+  .field-row select option{background:#111;}
+  .field-error{color:#e0784f;font-size:.72rem;margin-top:6px;display:none;}
+  .field-row.invalid input,.field-row.invalid textarea{border-color:#e0784f;}
+  .field-row.invalid .field-error{display:block;}
+  .iq-success{text-align:center;padding:20px 0;}
+  .iq-success .check{font-size:2.4rem;color:var(--gold);margin-bottom:16px;}
+  .iq-success h3{font-size:1.4rem;color:var(--ivory);margin-bottom:10px;}
+  .iq-success p{color:var(--stone);font-size:.9rem;line-height:1.7;max-width:420px;margin:0 auto 22px;}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+  .btn.full{width:100%;text-align:center;}
 </style>
 </head>
 <body>
@@ -357,7 +422,7 @@
     </ul>
   </nav>
   <div class="nav-cta">
-    <a class="btn solid" href="#contact"><span>Book Consultation</span></a>
+    <a class="btn solid" href="#contact" data-open-inquiry="General Inquiry"><span>Book Consultation</span></a>
   </div>
 </header>
 
@@ -372,7 +437,7 @@
     <p class="sub">Curated residences and commercial addresses across Gurgaon, Noida &amp; Greater Noida — built on verified titles, expert counsel, and a decade of relationships.</p>
     <div class="hero-ctas">
       <a class="btn solid" href="#projects"><span>Explore Properties</span></a>
-      <a class="btn" href="#contact"><span>Book Consultation</span></a>
+      <a class="btn" href="#contact" data-open-inquiry="General Inquiry"><span>Book Consultation</span></a>
     </div>
     <div class="hero-stats">
       <div class="stat"><div class="num" data-count="10">0</div><div class="lbl">Years Experience</div></div>
@@ -387,26 +452,27 @@
 <div class="search-float reveal">
   <div class="search-field">
     <label>Location</label>
-    <select><option>Golf Course Road</option><option>Dwarka Expressway</option><option>Noida</option><option>Greater Noida</option><option>SPR Road</option></select>
+    <select id="fLocation"><option value="All">Any Location</option><option value="Golf Course Road">Golf Course Road</option><option value="Dwarka Expressway">Dwarka Expressway</option><option value="Noida">Noida</option><option value="Greater Noida">Greater Noida</option><option value="SPR Road">SPR Road</option></select>
   </div>
   <div class="search-field">
     <label>Budget</label>
-    <select><option>₹1 – 2 Cr</option><option>₹2 – 5 Cr</option><option>₹5 – 10 Cr</option><option>₹10 Cr+</option></select>
+    <select id="fBudget"><option value="All">Any Budget</option><option value="1-2">₹1 – 2 Cr</option><option value="2-5">₹2 – 5 Cr</option><option value="5-10">₹5 – 10 Cr</option><option value="10plus">₹10 Cr+</option></select>
   </div>
   <div class="search-field">
     <label>Property Type</label>
-    <select><option>Apartment</option><option>Villa</option><option>Builder Floor</option><option>Commercial</option></select>
+    <select id="fType"><option value="All">Any Type</option><option value="Apartment">Apartment</option><option value="Villa">Villa</option><option value="Builder Floor">Builder Floor</option><option value="Commercial">Commercial</option></select>
   </div>
   <div class="search-field">
     <label>BHK</label>
-    <select><option>3 BHK</option><option>4 BHK</option><option>5 BHK</option><option>Penthouse</option></select>
+    <select id="fBhk"><option value="All">Any BHK</option><option value="3 BHK">3 BHK</option><option value="4 BHK">4 BHK</option><option value="5 BHK">5 BHK</option><option value="Penthouse">Penthouse</option></select>
   </div>
   <div class="search-field">
     <label>Status</label>
-    <select><option>Ready to Move</option><option>Under Construction</option><option>New Launch</option></select>
+    <select id="fStatus"><option value="All">Any Status</option><option value="Ready to Move">Ready to Move</option><option value="Under Construction">Under Construction</option><option value="New Launch">New Launch</option></select>
   </div>
-  <button class="search-go">Search</button>
+  <button class="search-go" id="searchGoBtn">Search</button>
 </div>
+<p id="searchResultNote" class="search-note" style="display:none;"></p>
 
 <section class="pad" id="projects">
   <div class="wrap">
@@ -415,32 +481,8 @@
       <p>A shortlist of the projects our advisors are currently placing clients into.</p>
     </div>
   </div>
-  <div class="proj-grid">
-    <div class="proj-card reveal">
-      <div class="proj-img" style="background-image:url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800')"></div>
-      <div class="proj-body">
-        <div class="proj-tag">New Launch</div>
-        <h3>The Camellias Residences</h3>
-        <div class="proj-meta"><span>Golf Course Rd</span><b>₹81.5 Cr onwards</b></div>
-      </div>
-    </div>
-    <div class="proj-card reveal">
-      <div class="proj-img" style="background-image:url('https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800')"></div>
-      <div class="proj-body">
-        <div class="proj-tag">Ready to Move</div>
-        <h3>Signature Greens</h3>
-        <div class="proj-meta"><span>Dwarka Expy</span><b>₹3.2 Cr onwards</b></div>
-      </div>
-    </div>
-    <div class="proj-card reveal">
-      <div class="proj-img" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800')"></div>
-      <div class="proj-body">
-        <div class="proj-tag">Under Construction</div>
-        <h3>M3M Crown</h3>
-        <div class="proj-meta"><span>SPR Road</span><b>₹4.6 Cr onwards</b></div>
-      </div>
-    </div>
-  </div>
+  <div class="proj-grid" id="projGrid"><!-- rendered by JS from PROJECTS --></div>
+  <p id="noResults" class="no-results" style="display:none;">No projects match that combination — try widening your budget or clearing a filter.</p>
 </section>
 
 <section class="pad" id="why">
@@ -472,7 +514,7 @@
       <div class="quote">"Our job isn't to sell a unit. It's to make sure the address you choose still makes sense in twenty years."
         <cite>— Founder &amp; CEO, Royaltty Infraa</cite>
       </div>
-      <a class="btn" href="#contact"><span>Meet the Team</span></a>
+      <a class="btn" href="#contact" data-open-inquiry="General Inquiry" data-preset-message="I'd like to meet the Royaltty Infraa advisory team."><span>Meet the Team</span></a>
     </div>
   </div>
 </section>
@@ -492,14 +534,14 @@
     </div>
   </div>
   <div class="services-grid">
-    <div class="service-card reveal"><h3>Buying</h3><span class="service-arrow">→</span></div>
-    <div class="service-card reveal"><h3>Selling</h3><span class="service-arrow">→</span></div>
-    <div class="service-card reveal"><h3>Investment Consultancy</h3><span class="service-arrow">→</span></div>
-    <div class="service-card reveal"><h3>Home Loan Assistance</h3><span class="service-arrow">→</span></div>
-    <div class="service-card reveal"><h3>Commercial Leasing</h3><span class="service-arrow">→</span></div>
-    <div class="service-card reveal"><h3>NRI Investment</h3><span class="service-arrow">→</span></div>
-    <div class="service-card reveal"><h3>Property Management</h3><span class="service-arrow">→</span></div>
-    <div class="service-card reveal"><h3>Documentation &amp; Legal</h3><span class="service-arrow">→</span></div>
+    <div class="service-card reveal" data-open-inquiry="General Inquiry" data-preset-message="I'm interested in your Buying advisory service." tabindex="0" role="button"><h3>Buying</h3><span class="service-arrow">→</span></div>
+    <div class="service-card reveal" data-open-inquiry="General Inquiry" data-preset-message="I'm interested in your Selling advisory service." tabindex="0" role="button"><h3>Selling</h3><span class="service-arrow">→</span></div>
+    <div class="service-card reveal" data-open-inquiry="General Inquiry" data-preset-message="I'm interested in your Investment Consultancy service." tabindex="0" role="button"><h3>Investment Consultancy</h3><span class="service-arrow">→</span></div>
+    <div class="service-card reveal" data-open-inquiry="General Inquiry" data-preset-message="I'd like help with Home Loan Assistance." tabindex="0" role="button"><h3>Home Loan Assistance</h3><span class="service-arrow">→</span></div>
+    <div class="service-card reveal" data-open-inquiry="General Inquiry" data-preset-message="I'm interested in Commercial Leasing." tabindex="0" role="button"><h3>Commercial Leasing</h3><span class="service-arrow">→</span></div>
+    <div class="service-card reveal" data-open-inquiry="General Inquiry" data-preset-message="I'd like to discuss NRI Investment options." tabindex="0" role="button"><h3>NRI Investment</h3><span class="service-arrow">→</span></div>
+    <div class="service-card reveal" data-open-inquiry="General Inquiry" data-preset-message="I'm interested in Property Management services." tabindex="0" role="button"><h3>Property Management</h3><span class="service-arrow">→</span></div>
+    <div class="service-card reveal" data-open-inquiry="General Inquiry" data-preset-message="I need help with Documentation &amp; Legal work." tabindex="0" role="button"><h3>Documentation &amp; Legal</h3><span class="service-arrow">→</span></div>
   </div>
 </section>
 
@@ -588,8 +630,8 @@
     <h2>Ready to find an address<br>worthy of your ambition?</h2>
     <div class="btn-row">
       <a class="btn solid" href="tel:+919891849474"><span>Call Now</span></a>
-      <a class="btn" href="#"><span>Book Site Visit</span></a>
-      <a class="btn" href="#"><span>WhatsApp Us</span></a>
+      <a class="btn" href="#contact" data-open-inquiry="Schedule Visit"><span>Book Site Visit</span></a>
+      <a class="btn" id="whatsappUsBtn" href="https://wa.me/919891849474?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Royaltty%20Infraa%27s%20listings." target="_blank" rel="noopener noreferrer"><span>WhatsApp Us</span></a>
     </div>
   </div>
 </section>
@@ -623,8 +665,68 @@
   </div>
 </footer>
 
-<div class="wa-float" title="Chat on WhatsApp">
+<a class="wa-float" id="waFloat" href="https://wa.me/919891849474?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Royaltty%20Infraa%27s%20listings." target="_blank" rel="noopener noreferrer" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">
   <svg width="26" height="26" viewBox="0 0 24 24" fill="#0A0A0A"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.19-3 .79.8-2.92-.2-.3A7.94 7.94 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm4.4-5.6c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.41-1.33-1.65-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41-.14 0-.3-.01-.46-.01s-.42.06-.64.3c-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.43-.58 1.63-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28z"/></svg>
+</a>
+
+<div class="modal-overlay" id="projectModal">
+  <div class="modal-box">
+    <button class="modal-close" id="projectModalClose" aria-label="Close">×</button>
+    <div id="projectModalContent"><!-- rendered by JS --></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="inquiryModal">
+  <div class="modal-box" style="max-width:560px;">
+    <button class="modal-close" id="inquiryModalClose" aria-label="Close">×</button>
+    <div class="iq-body">
+      <div id="inquiryFormWrap">
+        <h2 id="inquiryTitle">Talk to an advisor</h2>
+        <p class="iq-sub" id="inquirySub">Share a few details and we'll reach out within 2 working hours.</p>
+        <form id="inquiryForm" novalidate>
+          <div class="field-row" id="row-name">
+            <label>Full name</label>
+            <input type="text" id="iq-name" autocomplete="name" placeholder="Arjun Mehta">
+            <div class="field-error">Enter your full name.</div>
+          </div>
+          <div class="field-row" id="row-phone">
+            <label>Mobile number</label>
+            <input type="tel" id="iq-phone" autocomplete="tel" placeholder="98918 49474" inputmode="numeric">
+            <div class="field-error">Enter a valid 10-digit Indian mobile number.</div>
+          </div>
+          <div class="field-row" id="row-email">
+            <label>Email</label>
+            <input type="email" id="iq-email" autocomplete="email" placeholder="you@example.com">
+            <div class="field-error">Enter a valid email address.</div>
+          </div>
+          <div class="field-row">
+            <label>I'd like to</label>
+            <select id="iq-intent">
+              <option>General Inquiry</option>
+              <option>Schedule Visit</option>
+              <option>Get Callback</option>
+              <option>Download Brochure</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <label>Message (optional)</label>
+            <textarea id="iq-message" rows="3" placeholder="Any specific questions?"></textarea>
+          </div>
+          <button type="submit" class="btn solid full" id="iq-submit"><span>Send via WhatsApp</span></button>
+          <p style="text-align:center;font-size:.72rem;color:var(--stone);margin-top:16px;">
+            We'll open WhatsApp with your details filled in — just hit send.
+            Prefer email? <a href="#" id="iq-email-link" style="color:var(--gold-soft);text-decoration:underline;">Use email instead</a>.
+          </p>
+        </form>
+      </div>
+      <div class="iq-success" id="inquirySuccess" style="display:none;">
+        <div class="check">✓</div>
+        <h3>Almost done</h3>
+        <p>WhatsApp is opening in a new tab with your details pre-filled — just hit send and an advisor will respond shortly. You can also call us directly at <a href="tel:+919891849474" style="color:var(--gold);">+91 98918 49474</a>.</p>
+        <button class="btn" id="iq-reset" type="button"><span>Submit another request</span></button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -692,6 +794,282 @@
     });
     btn.addEventListener('mouseleave',()=>{ btn.style.transform='translate(0,0)'; });
   });
+</script>
+
+<script>
+/* ============================================================
+   PROJECT DATA
+   This is the single source of truth for search, filtering,
+   and the project detail modal. Add a new listing by adding
+   an object here — everything else wires up automatically.
+   ============================================================ */
+const PROJECTS = [
+  {
+    id:'camellias', name:'The Camellias Residences', builder:'DLF Limited',
+    status:'New Launch', location:'Golf Course Road', locationShort:'Golf Course Rd',
+    budgetBand:'10plus', type:'Apartment', bhk:'Penthouse',
+    priceLabel:'₹81.5 Cr onwards', configuration:'4, 5 BHK & Penthouse',
+    possession:'Ready', rera:'RC/REP/HARERA/GGM/867/2023/45',
+    hero:'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200',
+    gallery:['https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200','https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200','https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200'],
+    amenities:['18-hole golf frontage','Infinity pool','Private cinema','Wine cellar','Concierge & valet'],
+    desc:'Six towers directly on the DLF Golf & Country Club fairway — widely regarded as Gurgaon\'s most exclusive address. Four-side-open layouts, ready to move.'
+  },
+  {
+    id:'signature-greens', name:'Signature Greens', builder:'Signature Global',
+    status:'Under Construction', location:'Dwarka Expressway', locationShort:'Dwarka Expy',
+    budgetBand:'2-5', type:'Apartment', bhk:'3 BHK',
+    priceLabel:'₹3.2 Cr onwards', configuration:'3 & 4 BHK',
+    possession:'Dec 2027', rera:'RC/REP/HARERA/GGM/1102/2024/12',
+    hero:'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200',
+    gallery:['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200','https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200','https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200'],
+    amenities:['Half-Olympic pool','Sports court','Jogging track','Amphitheatre','3-tier power backup'],
+    desc:'A 9-tower development on Dwarka Expressway, NCR\'s strongest 3-year appreciation corridor. Construction-linked payment plan available, monthly progress updates shared with buyers.'
+  },
+  {
+    id:'m3m-crown', name:'M3M Crown', builder:'M3M India',
+    status:'Under Construction', location:'SPR Road', locationShort:'SPR Road',
+    budgetBand:'2-5', type:'Apartment', bhk:'4 BHK',
+    priceLabel:'₹4.6 Cr onwards', configuration:'3, 4 BHK & Penthouse',
+    possession:'Mar 2028', rera:'RC/REP/HARERA/GGM/998/2023/78',
+    hero:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200',
+    gallery:['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200','https://images.unsplash.com/photo-1560184897-ae75f418493e?w=1200','https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=1200'],
+    amenities:['Rooftop infinity pool','Sky lounge & bar','Business centre','Squash court','Pet park'],
+    desc:'Early-stage launch on Southern Peripheral Road, positioned ahead of the corridor\'s planned retail expansion. Configurations run from 3 BHK through full-floor penthouses.'
+  },
+  {
+    id:'sobha-aurum', name:'Sobha Aurum', builder:'Sobha Limited',
+    status:'New Launch', location:'Noida', locationShort:'Sector 150, Noida',
+    budgetBand:'5-10', type:'Villa', bhk:'4 BHK',
+    priceLabel:'₹6.8 Cr onwards', configuration:'4 & 5 BHK Villas',
+    possession:'Jun 2029', rera:'UPRERAPRJ450123',
+    hero:'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200',
+    gallery:['https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200','https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200','https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200'],
+    amenities:['Private plunge pool','Golf-facing clubhouse','Tennis court','Wellness spa','Gated boulevard'],
+    desc:'Independent villas in Sector 150 — Noida\'s greenest and fastest-appreciating micro-market at 16.8% projected 3-year growth. Each villa includes a private plunge pool and double garage.'
+  },
+  {
+    id:'whiteland-blissville', name:'Whiteland Blissville', builder:'Whiteland Corporation',
+    status:'Ready to Move', location:'Golf Course Road', locationShort:'Sector 76, Gurgaon',
+    budgetBand:'2-5', type:'Builder Floor', bhk:'3 BHK',
+    priceLabel:'₹2.4 Cr onwards', configuration:'3 & 4 BHK Independent Floors',
+    possession:'Ready', rera:'RC/REP/HARERA/GGM/745/2022/33',
+    hero:'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200',
+    gallery:['https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200','https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200','https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200'],
+    amenities:['Low-density independent floors','Private terrace','Covered parking','24/7 security','Landscaped entrance'],
+    desc:'Ready-to-move independent floors on a quiet pocket off Golf Course Road Extension — for buyers who want a villa-like feel at an apartment price point.'
+  },
+  {
+    id:'elan-presidential', name:'Elan Presidential Towers', builder:'Elan Group',
+    status:'Under Construction', location:'SPR Road', locationShort:'Sector 106, Gurgaon',
+    budgetBand:'1-2', type:'Commercial', bhk:'3 BHK',
+    priceLabel:'₹1.6 Cr onwards', configuration:'Retail & Office Spaces',
+    possession:'Sep 2027', rera:'RC/REP/HARERA/GGM/1203/2024/56',
+    hero:'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=1200',
+    gallery:['https://images.unsplash.com/photo-1449844908441-8829872d2607?w=1200','https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1200','https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=1200'],
+    amenities:['Double-height retail frontage','Food court','Multiplex anchor','Ample parking','Grade-A office floors'],
+    desc:'A mixed-use commercial address on Southern Peripheral Road, combining high-street retail with Grade-A office floors — built for both end-use and rental yield.'
+  },
+];
+
+const grid = document.getElementById('projGrid');
+const noResults = document.getElementById('noResults');
+
+function renderProjects(list){
+  grid.innerHTML = '';
+  noResults.style.display = list.length ? 'none' : 'block';
+  list.forEach(p=>{
+    const card = document.createElement('div');
+    card.className = 'proj-card reveal in';
+    card.innerHTML = `
+      <div class="proj-img" style="background-image:url('${p.hero}')"></div>
+      <div class="proj-body">
+        <div class="proj-tag">${p.status}</div>
+        <h3>${p.name}</h3>
+        <div class="proj-meta"><span>${p.locationShort}</span><b>${p.priceLabel}</b></div>
+      </div>`;
+    card.addEventListener('click', ()=> openProjectModal(p.id));
+    grid.appendChild(card);
+  });
+}
+renderProjects(PROJECTS);
+
+/* ---------------- SEARCH / FILTER ---------------- */
+function budgetMatches(band, wanted){
+  if(wanted === 'All') return true;
+  return band === wanted;
+}
+document.getElementById('searchGoBtn').addEventListener('click', ()=>{
+  const loc = document.getElementById('fLocation').value;
+  const budget = document.getElementById('fBudget').value;
+  const type = document.getElementById('fType').value;
+  const bhk = document.getElementById('fBhk').value;
+  const status = document.getElementById('fStatus').value;
+
+  const filtered = PROJECTS.filter(p=>{
+    if(loc !== 'All' && p.location !== loc) return false;
+    if(!budgetMatches(p.budgetBand, budget)) return false;
+    if(type !== 'All' && p.type !== type) return false;
+    if(bhk !== 'All' && p.bhk !== bhk) return false;
+    if(status !== 'All' && p.status !== status) return false;
+    return true;
+  });
+
+  renderProjects(filtered);
+  const note = document.getElementById('searchResultNote');
+  note.style.display = 'block';
+  note.textContent = filtered.length
+    ? `${filtered.length} propert${filtered.length===1?'y':'ies'} matched your search.`
+    : `No properties matched — showing all filters cleared may help.`;
+  document.getElementById('projects').scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+/* ---------------- PROJECT DETAIL MODAL ---------------- */
+const projectModal = document.getElementById('projectModal');
+const projectModalContent = document.getElementById('projectModalContent');
+
+function openProjectModal(id){
+  const p = PROJECTS.find(x=>x.id===id);
+  if(!p) return;
+  projectModalContent.innerHTML = `
+    <div class="pm-hero" id="pmHero" style="background-image:url('${p.gallery[0]}')"></div>
+    <div class="pm-thumbs">
+      ${p.gallery.map((g,i)=>`<div class="pm-thumb ${i===0?'active':''}" style="background-image:url('${g}')" data-src="${g}"></div>`).join('')}
+    </div>
+    <div class="pm-body">
+      <div class="proj-tag">${p.status} · ${p.builder}</div>
+      <h2>${p.name}</h2>
+      <div class="pm-loc">${p.location}</div>
+      <div class="pm-price">${p.priceLabel}</div>
+      <div class="pm-facts">
+        <div class="pm-fact"><span>Configuration</span><b>${p.configuration}</b></div>
+        <div class="pm-fact"><span>Possession</span><b>${p.possession}</b></div>
+        <div class="pm-fact"><span>RERA No.</span><b>${p.rera}</b></div>
+        <div class="pm-fact"><span>Type</span><b>${p.type}</b></div>
+      </div>
+      <p class="pm-desc">${p.desc}</p>
+      <div class="pm-chips">${p.amenities.map(a=>`<div class="pm-chip">${a}</div>`).join('')}</div>
+      <div class="pm-actions">
+        <a class="btn solid" href="tel:+919891849474"><span>Call Now</span></a>
+        <button class="btn" data-open-inquiry="Schedule Visit" data-project="${p.name}"><span>Schedule Visit</span></button>
+        <button class="btn" data-open-inquiry="Download Brochure" data-project="${p.name}"><span>Get Brochure</span></button>
+        <a class="btn" href="https://wa.me/919891849474?text=${encodeURIComponent('Hi, I\'m interested in '+p.name+'. Could you share more details?')}" target="_blank" rel="noopener noreferrer"><span>WhatsApp</span></a>
+      </div>
+    </div>`;
+
+  projectModalContent.querySelectorAll('.pm-thumb').forEach(t=>{
+    t.addEventListener('click', ()=>{
+      document.getElementById('pmHero').style.backgroundImage = `url('${t.dataset.src}')`;
+      projectModalContent.querySelectorAll('.pm-thumb').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+    });
+  });
+  projectModalContent.querySelectorAll('[data-open-inquiry]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      closeModal(projectModal);
+      openInquiry(btn.dataset.openInquiry, '', btn.dataset.project);
+    });
+  });
+
+  openModal(projectModal);
+}
+
+document.getElementById('projectModalClose').addEventListener('click', ()=>closeModal(projectModal));
+
+/* ---------------- INQUIRY MODAL ---------------- */
+const inquiryModal = document.getElementById('inquiryModal');
+const inquiryForm = document.getElementById('inquiryForm');
+const inquiryFormWrap = document.getElementById('inquiryFormWrap');
+const inquirySuccess = document.getElementById('inquirySuccess');
+let currentProjectContext = '';
+
+function openInquiry(intent, presetMessage, projectName){
+  inquiryForm.reset();
+  document.querySelectorAll('#inquiryForm .field-row').forEach(r=>r.classList.remove('invalid'));
+  inquiryFormWrap.style.display = 'block';
+  inquirySuccess.style.display = 'none';
+  currentProjectContext = projectName || '';
+
+  document.getElementById('iq-intent').value = intent || 'General Inquiry';
+  document.getElementById('iq-message').value = presetMessage || '';
+  document.getElementById('inquiryTitle').textContent = projectName ? `Enquire about ${projectName}` : 'Talk to an advisor';
+  document.getElementById('inquirySub').textContent = projectName
+    ? `An advisor will get back to you about ${projectName} within 2 working hours.`
+    : `Share a few details and we'll reach out within 2 working hours.`;
+
+  openModal(inquiryModal);
+}
+
+document.querySelectorAll('[data-open-inquiry]').forEach(el=>{
+  // top-level triggers only; ones rendered inside the project modal are wired separately above
+  if(el.closest('#projectModalContent')) return;
+  el.addEventListener('click', (e)=>{
+    e.preventDefault();
+    openInquiry(el.dataset.openInquiry, el.dataset.presetMessage || '');
+  });
+  el.addEventListener('keypress', (e)=>{
+    if(e.key === 'Enter'){ e.preventDefault(); openInquiry(el.dataset.openInquiry, el.dataset.presetMessage || ''); }
+  });
+});
+
+document.getElementById('inquiryModalClose').addEventListener('click', ()=>closeModal(inquiryModal));
+
+function validateField(id, testFn){
+  const row = document.getElementById(`row-${id}`);
+  const val = document.getElementById(`iq-${id}`).value.trim();
+  const ok = testFn(val);
+  row.classList.toggle('invalid', !ok);
+  return ok;
+}
+
+inquiryForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const nameOk = validateField('name', v=>v.length>=2);
+  const phoneOk = validateField('phone', v=>/^[6-9]\d{9}$/.test(v.replace(/\s/g,'')));
+  const emailOk = validateField('email', v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+  if(!(nameOk && phoneOk && emailOk)) return;
+
+  const name = document.getElementById('iq-name').value.trim();
+  const phone = document.getElementById('iq-phone').value.trim();
+  const email = document.getElementById('iq-email').value.trim();
+  const intent = document.getElementById('iq-intent').value;
+  const message = document.getElementById('iq-message').value.trim();
+
+  // Persist locally so nothing is lost even without a backend yet.
+  try{
+    const leads = JSON.parse(localStorage.getItem('royaltty_leads')||'[]');
+    leads.push({name, phone, email, intent, message, project: currentProjectContext, at: new Date().toISOString()});
+    localStorage.setItem('royaltty_leads', JSON.stringify(leads));
+  }catch(err){ /* localStorage unavailable — submission still proceeds via WhatsApp */ }
+
+  const waText = encodeURIComponent(
+    `Hi, I'm ${name}.\nIntent: ${intent}${currentProjectContext ? '\nProject: '+currentProjectContext : ''}\nPhone: ${phone}\nEmail: ${email}${message ? '\nMessage: '+message : ''}`
+  );
+  const mailSubject = encodeURIComponent(`${intent}${currentProjectContext ? ' — '+currentProjectContext : ''}`);
+  const mailBody = encodeURIComponent(`Name: ${name}\nPhone: ${phone}\nEmail: ${email}\n\n${message}`);
+  document.getElementById('iq-email-link').href = `mailto:hello@royalttyinfraa.com?subject=${mailSubject}&body=${mailBody}`;
+
+  window.open(`https://wa.me/919891849474?text=${waText}`, '_blank');
+
+  inquiryFormWrap.style.display = 'none';
+  inquirySuccess.style.display = 'block';
+});
+
+document.getElementById('iq-reset').addEventListener('click', ()=>{
+  inquiryFormWrap.style.display = 'block';
+  inquirySuccess.style.display = 'none';
+  inquiryForm.reset();
+});
+
+/* ---------------- MODAL HELPERS ---------------- */
+function openModal(el){ el.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal(el){ el.classList.remove('open'); document.body.style.overflow = ''; }
+[projectModal, inquiryModal].forEach(modal=>{
+  modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(modal); });
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){ closeModal(projectModal); closeModal(inquiryModal); }
+});
 </script>
 </body>
 </html>
